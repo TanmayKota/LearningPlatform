@@ -1,0 +1,125 @@
+﻿@page "/search"
+@using ExpertFinder.Client.Shared.Models
+@inject HttpClient Http
+@inject IJSRuntime JS
+@inject NavigationManager NavigationManager
+
+<div class="search-page">
+    <div class="main">
+        <div class="result">
+            <h1>Expert Finder</h1>
+
+            @if (isLoading)
+            {
+                <div>Loading…</div>
+            }
+            else
+            {
+                @if (!string.IsNullOrEmpty(answerHtml))
+                {
+                    <div class="chat-output">@((MarkupString)answerHtml)</div>
+                }
+                else
+                {
+                    <div class="chat-output">Ask a question and press Search.</div>
+                }
+            }
+        </div>
+
+        <!-- bottom input bar -->
+        <div class="input-bar">
+            <div class="query-wrapper">
+                <textarea class="query-box" @bind="query" placeholder="Ask your question..."></textarea>
+
+                <!-- Search button inside the query box -->
+                <button class="btn-search-inside" @onclick="OnSearch" title="Search">Search</button>
+            </div>
+
+            <div class="right-controls">
+                <input class="location-box" @bind="location" placeholder="Location (city, region, country)" />
+            </div>
+        </div>
+    </div>
+
+    <!-- INLINE Experts panel (no separate component) -->
+    <div class="experts-panel @(panelCollapsed ? "collapsed" : "")" id="expertsPanel">
+        <button class="experts-toggle btn-logout-like" @onclick="TogglePanel" title="Hide / Show experts">
+            <span class="toggle-icon">@((panelCollapsed) ? "◀" : "×")</span>
+        </button>
+
+        <h3>Experts</h3>
+
+        @if (experts?.Any() == true)
+        {
+            <ul>
+                @foreach (var e in experts)
+                {
+                    <li>
+                        <a target="_blank" href="@e.Url">@e.Title</a>
+                        <div class="snippet">@e.Snippet</div>
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <div>No experts found.</div>
+        }
+    </div>
+</div>
+
+@code {
+    private string query;
+    private string location;
+    private string answerHtml;
+    private bool isLoading;
+    private bool panelCollapsed = false;
+    private List<ExpertLinkDto> experts = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        // optional: load saved token or last query
+    }
+
+    private async Task OnSearch()
+    {
+        isLoading = true;
+        answerHtml = string.Empty;
+        experts.Clear();
+
+        var token = await JS.InvokeAsync<string>("appStorage.get", "access_token");
+        if (string.IsNullOrEmpty(token))
+        {
+            NavigationManager.NavigateTo("/login");
+            return;
+        }
+
+        var req = new { Query = query, Location = location };
+        var httpReq = new HttpRequestMessage(HttpMethod.Post, "api/search");
+        httpReq.Content = JsonContent.Create(req);
+        httpReq.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+        var resp = await Http.SendAsync(httpReq);
+        if (!resp.IsSuccessStatusCode)
+        {
+            answerHtml = $"<div><strong>Error:</strong> {resp.ReasonPhrase}</div>";
+            isLoading = false;
+            return;
+        }
+
+        var body = await resp.Content.ReadFromJsonAsync<SearchResponseDto>();
+        // server should sanitize HTML; we display MarkupString here
+        answerHtml = body?.Answer ?? "<div>No answer</div>";
+        experts = body?.Experts ?? new List<ExpertLinkDto>();
+        panelCollapsed = !experts.Any();
+
+        isLoading = false;
+    }
+
+    private void TogglePanel()
+    {
+        panelCollapsed = !panelCollapsed;
+    }
+
+    public class SearchResponseDto { public string Answer { get; set; } public string Topic { get; set; } public List<ExpertLinkDto> Experts { get; set; } }
+}

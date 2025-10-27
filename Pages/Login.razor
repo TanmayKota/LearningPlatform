@@ -1,0 +1,87 @@
+﻿@page "/"
+@page "/login"
+@using System.Net.Http.Json
+@inject HttpClient Http
+@inject IJSRuntime JS
+@inject NavigationManager NavigationManager
+
+<div class="login-page">
+    <div class="login-box">
+        <h2>Login</h2>
+        <input class="token-input" placeholder="Enter access token" @bind="token" />
+        <button class="btn-submit" @onclick="OnSubmit" disabled="@isLoading">
+            @(isLoading ? "Please wait..." : "Submit")
+        </button>
+        <div class="message">@message</div>
+    </div>
+</div>
+
+@code {
+    private string token;
+    private string message;
+    private bool isLoading;
+
+    private class AuthResponse
+    {
+        public bool Valid { get; set; }
+        public string SessionToken { get; set; }
+        public string Message { get; set; }
+    }
+
+    private async Task OnSubmit()
+    {
+        message = string.Empty;
+
+        if (string.IsNullOrWhiteSpace(token))
+        {
+            message = "Please enter a Token";
+            return;
+        }
+
+        isLoading = true;
+
+        try
+        {
+            var body = new { token = token.Trim() };
+            var baseUri = Http.BaseAddress ?? new Uri(NavigationManager.BaseUri);
+            var requestUri = new Uri(baseUri, "api/auth/validate");
+
+            var request = new HttpRequestMessage(HttpMethod.Post, requestUri)
+                {
+                    Content = JsonContent.Create(body)
+                };
+
+            var resp = await Http.SendAsync(request);
+            var respBody = await resp.Content.ReadAsStringAsync();
+
+            if (resp.IsSuccessStatusCode)
+            {
+                var authResp = System.Text.Json.JsonSerializer.Deserialize<AuthResponse>(respBody,
+                    new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+                if (authResp != null && !string.IsNullOrWhiteSpace(authResp.SessionToken))
+                {
+                    await JS.InvokeVoidAsync("appStorage.set", "access_token", authResp.SessionToken);
+                    NavigationManager.NavigateTo("/search");
+                    return;
+                }
+
+                message = authResp?.Message ?? "Login succeeded but no session token returned.";
+            }
+            else
+            {
+                var err = System.Text.Json.JsonSerializer.Deserialize<AuthResponse>(respBody,
+                    new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                message = err?.Message ?? "Invalid Token - Please add a Valid Token";
+            }
+        }
+        catch (Exception ex)
+        {
+            message = $"Error: {ex.Message}";
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+}

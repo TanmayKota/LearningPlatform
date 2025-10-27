@@ -1,0 +1,49 @@
+﻿@inherits LayoutComponentBase
+@inject IJSRuntime JS
+@inject NavigationManager NavigationManager
+
+<div class="main-layout">
+    <header class="topbar">
+        <div class="brand" @onclick="GoHome" title="Go to home">ExpertFinder</div>
+        <div class="top-actions">
+            @if (!IsLoginPage)
+            {
+                <button class="btn small btn-logout-like" @onclick="OnLogout">Logout</button>
+            }
+        </div>
+    </header>
+
+    <div class="body-wrap">
+        <main class="main-content">
+            @Body
+        </main>
+    </div>
+
+    <footer class="footer">© @DateTime.Now.Year — ExpertFinder</footer>
+</div>
+
+@code {
+    private bool railCollapsed = false;
+
+    // Property to check if the current page is the login page
+    private bool IsLoginPage =>
+        NavigationManager.Uri.Contains("/login", StringComparison.OrdinalIgnoreCase)
+        || NavigationManager.Uri.EndsWith("/", StringComparison.OrdinalIgnoreCase);
+
+    async Task OnLogout()
+    {
+        // remove access token and navigate to login
+        await JS.InvokeVoidAsync("appStorage.remove", "access_token");
+        NavigationManager.NavigateTo("/login", true);
+    }
+
+    void ToggleRail()
+    {
+        railCollapsed = !railCollapsed;
+    }
+
+    void GoHome()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+}

@@ -1,0 +1,135 @@
+/* dark theme layout for MainLayout (scoped) */
+.main-layout {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #0b0f14;
+    color: #e6eef3;
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 18px;
+    border-bottom: 1px solid #1c232b;
+    background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+}
+
+.brand {
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 0.6px;
+    cursor: pointer;
+}
+
+.top-actions .btn {
+    background: transparent;
+    border: 1px solid #2b3440;
+    padding: 6px 10px;
+    border-radius: 6px;
+    color: #dbeafe;
+    cursor: pointer;
+}
+
+.body-wrap {
+    display: flex;
+    flex: 1 1 auto;
+    overflow: hidden;
+}
+
+/* main content area */
+.main-content {
+    flex: 1 1 auto;
+    padding: 18px;
+    overflow-y: auto;
+}
+
+/* right rail (experts) */
+.right-rail {
+    width: 340px;
+    min-width: 48px;
+    max-width: 42%;
+    border-left: 1px solid #162028;
+    background: #071018;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    transition: width 180ms ease, padding 180ms ease;
+}
+
+    /* collapsed state - the ToggleRail flips the visual via a class */
+    .right-rail[style*="display:none"] { /* not used, kept for reference */
+    }
+
+    .right-rail .rail-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 8px;
+    }
+
+.rail-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.rail-body {
+    overflow-y: auto;
+    padding-top: 6px;
+}
+
+/* small buttons */
+.btn {
+    background: #13304a;
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+    .btn.small {
+        padding: 6px 8px;
+        font-size: 0.9rem;
+    }
+
+    .btn.tiny {
+        padding: 4px 6px;
+        font-size: 0.85rem;
+    }
+
+/* placeholder */
+.placeholder {
+    font-size: 0.92rem;
+    color: #9fb4c8;
+    padding: 6px;
+}
+
+/* footer */
+.footer {
+    padding: 10px 14px;
+    font-size: 0.85rem;
+    color: #8ea6b8;
+    border-top: 1px solid #121821;
+}
+
+/* collapsed right rail: when railCollapsed true we add narrower look (Blazor can't apply attribute on aside automatically,
+   we'll use the + attribute selector via a parent class — easiest approach is to toggle a class on the body-wrap when collapsed.
+   However, scoped CSS can't easily access component state. To keep it simple, we rely on the ToggleRail to shrink by style change.
+*/
+
+/* responsive: stack on small screens */
+@media (max-width: 900px) {
+    .body-wrap {
+        flex-direction: column;
+    }
+
+    .right-rail {
+        width: 100%;
+        border-left: none;
+        border-top: 1px solid #121a20;
+        min-height: 120px;
+    }
+}
