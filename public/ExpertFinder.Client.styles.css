@@ -1,0 +1,220 @@
+/* /Layout/MainLayout.razor.rz.scp.css */
+/* dark theme layout for MainLayout (scoped) */
+.main-layout[b-yx1pd7tfyd] {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #0b0f14;
+    color: #e6eef3;
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+.topbar[b-yx1pd7tfyd] {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 18px;
+    border-bottom: 1px solid #1c232b;
+    background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+}
+
+.brand[b-yx1pd7tfyd] {
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 0.6px;
+    cursor: pointer;
+}
+
+.top-actions .btn[b-yx1pd7tfyd] {
+    background: transparent;
+    border: 1px solid #2b3440;
+    padding: 6px 10px;
+    border-radius: 6px;
+    color: #dbeafe;
+    cursor: pointer;
+}
+
+.body-wrap[b-yx1pd7tfyd] {
+    display: flex;
+    flex: 1 1 auto;
+    overflow: hidden;
+}
+
+/* main content area */
+.main-content[b-yx1pd7tfyd] {
+    flex: 1 1 auto;
+    padding: 18px;
+    overflow-y: auto;
+}
+
+/* right rail (experts) */
+.right-rail[b-yx1pd7tfyd] {
+    width: 340px;
+    min-width: 48px;
+    max-width: 42%;
+    border-left: 1px solid #162028;
+    background: #071018;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    transition: width 180ms ease, padding 180ms ease;
+}
+
+    /* collapsed state - the ToggleRail flips the visual via a class */
+    .right-rail[style*="display:none"][b-yx1pd7tfyd] { /* not used, kept for reference */
+    }
+
+    .right-rail .rail-top[b-yx1pd7tfyd] {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 8px;
+    }
+
+.rail-title[b-yx1pd7tfyd] {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.rail-body[b-yx1pd7tfyd] {
+    overflow-y: auto;
+    padding-top: 6px;
+}
+
+/* small buttons */
+.btn[b-yx1pd7tfyd] {
+    background: #13304a;
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+    .btn.small[b-yx1pd7tfyd] {
+        padding: 6px 8px;
+        font-size: 0.9rem;
+    }
+
+    .btn.tiny[b-yx1pd7tfyd] {
+        padding: 4px 6px;
+        font-size: 0.85rem;
+    }
+
+/* placeholder */
+.placeholder[b-yx1pd7tfyd] {
+    font-size: 0.92rem;
+    color: #9fb4c8;
+    padding: 6px;
+}
+
+/* footer */
+.footer[b-yx1pd7tfyd] {
+    padding: 10px 14px;
+    font-size: 0.85rem;
+    color: #8ea6b8;
+    border-top: 1px solid #121821;
+}
+
+/* collapsed right rail: when railCollapsed true we add narrower look (Blazor can't apply attribute on aside automatically,
+   we'll use the + attribute selector via a parent class � easiest approach is to toggle a class on the body-wrap when collapsed.
+   However, scoped CSS can't easily access component state. To keep it simple, we rely on the ToggleRail to shrink by style change.
+*/
+
+/* responsive: stack on small screens */
+@media (max-width: 900px) {
+    .body-wrap[b-yx1pd7tfyd] {
+        flex-direction: column;
+    }
+
+    .right-rail[b-yx1pd7tfyd] {
+        width: 100%;
+        border-left: none;
+        border-top: 1px solid #121a20;
+        min-height: 120px;
+    }
+}
+/* /Layout/NavMenu.razor.rz.scp.css */
+.navbar-toggler[b-07l2tbjqch] {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.top-row[b-07l2tbjqch] {
+    height: 3.5rem;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.navbar-brand[b-07l2tbjqch] {
+    font-size: 1.1rem;
+}
+
+.bi[b-07l2tbjqch] {
+    display: inline-block;
+    position: relative;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-right: 0.75rem;
+    top: -1px;
+    background-size: cover;
+}
+
+.bi-house-door-fill-nav-menu[b-07l2tbjqch] {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='white' class='bi bi-house-door-fill' viewBox='0 0 16 16'%3E%3Cpath d='M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5Z'/%3E%3C/svg%3E");
+}
+
+.bi-plus-square-fill-nav-menu[b-07l2tbjqch] {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='white' class='bi bi-plus-square-fill' viewBox='0 0 16 16'%3E%3Cpath d='M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0z'/%3E%3C/svg%3E");
+}
+
+.bi-list-nested-nav-menu[b-07l2tbjqch] {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='white' class='bi bi-list-nested' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M4.5 11.5A.5.5 0 0 1 5 11h10a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zm-2-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm-2-4A.5.5 0 0 1 1 3h10a.5.5 0 0 1 0 1H1a.5.5 0 0 1-.5-.5z'/%3E%3C/svg%3E");
+}
+
+.nav-item[b-07l2tbjqch] {
+    font-size: 0.9rem;
+    padding-bottom: 0.5rem;
+}
+
+    .nav-item:first-of-type[b-07l2tbjqch] {
+        padding-top: 1rem;
+    }
+
+    .nav-item:last-of-type[b-07l2tbjqch] {
+        padding-bottom: 1rem;
+    }
+
+    .nav-item[b-07l2tbjqch]  a {
+        color: #d7d7d7;
+        border-radius: 4px;
+        height: 3rem;
+        display: flex;
+        align-items: center;
+        line-height: 3rem;
+    }
+
+.nav-item[b-07l2tbjqch]  a.active {
+    background-color: rgba(255,255,255,0.37);
+    color: white;
+}
+
+.nav-item[b-07l2tbjqch]  a:hover {
+    background-color: rgba(255,255,255,0.1);
+    color: white;
+}
+
+@media (min-width: 641px) {
+    .navbar-toggler[b-07l2tbjqch] {
+        display: none;
+    }
+
+    .collapse[b-07l2tbjqch] {
+        /* Never collapse the sidebar for wide screens */
+        display: block;
+    }
+    
+    .nav-scrollable[b-07l2tbjqch] {
+        /* Allow sidebar to scroll for tall menus */
+        height: calc(100vh - 3.5rem);
+        overflow-y: auto;
+    }
+}
