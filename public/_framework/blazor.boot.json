@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "ExpertFinder.Client",
   "resources": {
-    "hash": "sha256-l2s8aPpkzJt0PCc9AFSr66kIxp/4tsi347NVsJG3UCg=",
+    "hash": "sha256-X0266VkwK1Uj5uNweZgvqbRkMBuxCalVjpQCCEfkrSY=",
     "jsModuleNative": {
       "dotnet.native.8.0.10.owktuyypwq.js": "sha256-QVxMlY7ohmjgde/bZMA0dlWDAeuUP+tEfkiSdg4DFcE="
     },
@@ -17,7 +17,7 @@
       "icudt_no_CJK.dat": "sha256-L7sV7NEYP37/Qr2FPCePo5cJqRgTXRwGHuwF5Q+0Nfs="
     },
     "assembly": {
-      "ExpertFinder.Client.wasm": "sha256-9qoUOhSXKOTUQXXgr8UzwhwpwF0pt3z6zGgwTUDRGkI=",
+      "ExpertFinder.Client.wasm": "sha256-jiMP7OPs4TMuALgaPIRvEAXNaJhgrXp4kavKenQaE1Q=",
       "Microsoft.AspNetCore.Components.wasm": "sha256-2WxRL2IVePXaObBwPNuyE4mVUHi5T9kFUT5iqJ14814=",
       "Microsoft.AspNetCore.Components.Web.wasm": "sha256-wb/0znTYVY92/IORu37h48ivJrGvkb/HjO9muMIJiMc=",
       "Microsoft.AspNetCore.Components.WebAssembly.wasm": "sha256-y8pZnLb06DN6VOJJVt/38shII5h9hGlezRy9fjwTpzU=",
