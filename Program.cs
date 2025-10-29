@@ -13,7 +13,7 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 var configuredApiBase = builder.Configuration["ApiBaseUrl"];
 
 // Fallback default if not configured (change the port to your API's port if different)
-var defaultApiBase = "https://localhost:7030/";
+var defaultApiBase = "https://learningplatformbackend-giah.onrender.com/";
 
 // Choose the final base and ensure it ends with a slash
 var apiBase = string.IsNullOrWhiteSpace(configuredApiBase) ? defaultApiBase : configuredApiBase;
